@@ -117,6 +117,7 @@ function findCartWithHighestValueAndItsOwner() {
                             highestValueCart = cart;
                         }
                     }
+                    // find owner of the cart
                     console.log("\n----------Task #3----------");
                     if (highestValueCart != undefined) {
                         owner = findElementWithId(highestValueCart.userId, users);
@@ -127,10 +128,62 @@ function findCartWithHighestValueAndItsOwner() {
         });
     });
 }
-// helper function
+// helper function for finding element with given id
 function findElementWithId(id, list) {
     var foundElements = list.filter(function (element) { return element.id == id; });
     return foundElements[0];
 }
-createProductCategoriesListWithValue();
-findCartWithHighestValueAndItsOwner();
+// task 4 - Finds the two users living furthest away from each other
+function findTwoUsersFurthestAway() {
+    return __awaiter(this, void 0, void 0, function () {
+        var users, foundUsers, furthest, i, j, latDifference, longDifference, distance, name1, name2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, fetchUsers()];
+                case 1:
+                    users = (_a.sent());
+                    foundUsers = [0, 0];
+                    furthest = 0;
+                    for (i = 0; i < users.length - 1; i++) {
+                        for (j = i + 1; j < users.length; j++) {
+                            latDifference = Math.pow(+users[i].address.geolocation.lat - +users[j].address.geolocation.lat, 2);
+                            longDifference = Math.pow(+users[i].address.geolocation.long - +users[j].address.geolocation.long, 2);
+                            distance = latDifference + longDifference;
+                            if (distance > furthest) {
+                                foundUsers = [i, j];
+                                furthest = distance;
+                            }
+                        }
+                    }
+                    name1 = users[foundUsers[0]].name.firstname +
+                        " " +
+                        users[foundUsers[0]].name.lastname;
+                    name2 = users[foundUsers[1]].name.firstname +
+                        " " +
+                        users[foundUsers[1]].name.lastname;
+                    console.log("\n----------Task #4----------");
+                    console.log("Furthest away from each other live ".concat(name1, " and ").concat(name2));
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+function main() {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, createProductCategoriesListWithValue()];
+                case 1:
+                    _a.sent();
+                    return [4 /*yield*/, findCartWithHighestValueAndItsOwner()];
+                case 2:
+                    _a.sent();
+                    return [4 /*yield*/, findTwoUsersFurthestAway()];
+                case 3:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+main();
