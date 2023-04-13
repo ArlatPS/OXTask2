@@ -26,16 +26,56 @@ async function createProductCategoriesListWithValue() {
       list[product.category] += product.price;
     }
   }
+  console.log("\n----------Task #2----------");
   // for every category log the result with an appropriate padding
   for (let key in list) {
     const sumToDisplay = String(Math.round(list[key] * 100) / 100).padStart(7);
     console.log(
-      `Total value of products in ${key.padEnd(17)}: ${sumToDisplay}`
+      `Total value of products in ${key.padEnd(17)}: ${sumToDisplay} $`
     );
   }
 }
 
+// task 3 - Finds a cart with the highest value, determines its value and full name of its owner
+async function findCartWithHighestValueAndItsOwner() {
+  const carts = (await fetchCarts()) as Cart[];
+  const users = (await fetchUsers()) as User[];
+  const products = (await fetchProducts()) as Product[];
+  let currentMax = 0;
+  let highestValueCart: Cart | undefined = undefined;
+  for (let cart of carts) {
+    let sum = 0;
+    for (let product of cart.products) {
+      const foundProduct = findElementWithId(product.productId, products);
+      sum += foundProduct.price * product.quantity;
+    }
+    if (sum > currentMax) {
+      currentMax = sum;
+      highestValueCart = cart;
+    }
+  }
+  console.log("\n----------Task #3----------");
+  if (highestValueCart != undefined) {
+    const owner = findElementWithId(highestValueCart.userId, users);
+    console.log(
+      `Highest value cart belongs to ${owner.name.firstname} ${
+        owner.name.lastname
+      } and its contents are worth ${Math.round(currentMax * 100) / 100} $`
+    );
+  }
+}
+
+// helper function
+function findElementWithId<T extends Cart | User | Product>(
+  id: number,
+  list: T[]
+): T {
+  const foundElements = list.filter((element) => element.id == id);
+  return foundElements[0];
+}
+
 createProductCategoriesListWithValue();
+findCartWithHighestValueAndItsOwner();
 
 type Product = {
   id: number;

@@ -76,14 +76,61 @@ function createProductCategoriesListWithValue() {
                             list[product.category] += product.price;
                         }
                     }
+                    console.log("\n----------Task #2----------");
                     // for every category log the result with an appropriate padding
                     for (key in list) {
                         sumToDisplay = String(Math.round(list[key] * 100) / 100).padStart(7);
-                        console.log("Total value of products in ".concat(key.padEnd(17), ": ").concat(sumToDisplay));
+                        console.log("Total value of products in ".concat(key.padEnd(17), ": ").concat(sumToDisplay, " $"));
                     }
                     return [2 /*return*/];
             }
         });
     });
 }
+// task 3 - Finds a cart with the highest value, determines its value and full name of its owner
+function findCartWithHighestValueAndItsOwner() {
+    return __awaiter(this, void 0, void 0, function () {
+        var carts, users, products, currentMax, highestValueCart, _i, carts_1, cart, sum, _a, _b, product, foundProduct, owner;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0: return [4 /*yield*/, fetchCarts()];
+                case 1:
+                    carts = (_c.sent());
+                    return [4 /*yield*/, fetchUsers()];
+                case 2:
+                    users = (_c.sent());
+                    return [4 /*yield*/, fetchProducts()];
+                case 3:
+                    products = (_c.sent());
+                    currentMax = 0;
+                    highestValueCart = undefined;
+                    for (_i = 0, carts_1 = carts; _i < carts_1.length; _i++) {
+                        cart = carts_1[_i];
+                        sum = 0;
+                        for (_a = 0, _b = cart.products; _a < _b.length; _a++) {
+                            product = _b[_a];
+                            foundProduct = findElementWithId(product.productId, products);
+                            sum += foundProduct.price * product.quantity;
+                        }
+                        if (sum > currentMax) {
+                            currentMax = sum;
+                            highestValueCart = cart;
+                        }
+                    }
+                    console.log("\n----------Task #3----------");
+                    if (highestValueCart != undefined) {
+                        owner = findElementWithId(highestValueCart.userId, users);
+                        console.log("Highest value cart belongs to ".concat(owner.name.firstname, " ").concat(owner.name.lastname, " and its contents are worth ").concat(Math.round(currentMax * 100) / 100, " $"));
+                    }
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+// helper function
+function findElementWithId(id, list) {
+    var foundElements = list.filter(function (element) { return element.id == id; });
+    return foundElements[0];
+}
 createProductCategoriesListWithValue();
+findCartWithHighestValueAndItsOwner();
