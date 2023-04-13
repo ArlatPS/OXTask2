@@ -56,3 +56,34 @@ function fetchFakeStoreApi(route) {
 var fetchUsers = fetchFakeStoreApi("users");
 var fetchCarts = fetchFakeStoreApi("carts/?startdate=2000-01-01&enddate=2023-04-07");
 var fetchProducts = fetchFakeStoreApi("products");
+// task 2 - Creates a data structure containing all available product categories
+// and the total value of products of a given category
+function createProductCategoriesListWithValue() {
+    return __awaiter(this, void 0, void 0, function () {
+        var products, list, _i, products_1, product, key, sumToDisplay;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, fetchProducts()];
+                case 1:
+                    products = (_a.sent());
+                    list = {};
+                    for (_i = 0, products_1 = products; _i < products_1.length; _i++) {
+                        product = products_1[_i];
+                        if (typeof list[product.category] == "undefined") {
+                            list[product.category] = product.price;
+                        }
+                        else {
+                            list[product.category] += product.price;
+                        }
+                    }
+                    // for every category log the result with an appropriate padding
+                    for (key in list) {
+                        sumToDisplay = String(Math.round(list[key] * 100) / 100).padStart(7);
+                        console.log("Total value of products in ".concat(key.padEnd(17), ": ").concat(sumToDisplay));
+                    }
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+createProductCategoriesListWithValue();
