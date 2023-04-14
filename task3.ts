@@ -1,7 +1,7 @@
 import { fetchCarts, fetchProducts, fetchUsers } from "./task1";
 import { User, Cart, Product } from "./types";
 
-// task 3 - Finds a cart with the highest value, determines its value and full name of its owner
+// task 3 - Find cart with the highest value, determines its value and full name of its owner
 export async function findCartWithHighestValueAndItsOwner() {
   // fetch carts, users and products
   const carts = (await fetchCarts()) as Cart[];
@@ -28,6 +28,8 @@ export async function findCartWithHighestValueAndItsOwner() {
     return `Highest value cart belongs to ${getUserFullName(
       owner
     )} and its contents are worth ${Math.round(currentMax * 100) / 100} $`;
+  } else {
+    return "Cart or user not found";
   }
 }
 

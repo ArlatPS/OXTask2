@@ -2,7 +2,7 @@ import { fetchUsers } from "./task1";
 import { getUserFullName } from "./task3";
 import { User } from "./types";
 
-// task 4 - Finds the two users living furthest away from each other
+// task 4 - Find two users living furthest away from each other
 export async function findTwoUsersFurthestAway() {
   const users = (await fetchUsers()) as User[];
 
