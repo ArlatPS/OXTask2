@@ -23,14 +23,11 @@ export async function findCartWithHighestValueAndItsOwner() {
     }
   }
   // find owner of the cart
-  console.log("\n----------Task #3----------");
   if (highestValueCart != undefined) {
     const owner = findElementWithId(highestValueCart.userId, users);
-    console.log(
-      `Highest value cart belongs to ${getUserFullName(
-        owner
-      )} and its contents are worth ${Math.round(currentMax * 100) / 100} $`
-    );
+    return `Highest value cart belongs to ${getUserFullName(
+      owner
+    )} and its contents are worth ${Math.round(currentMax * 100) / 100} $`;
   }
 }
 

@@ -13,12 +13,5 @@ export async function createProductCategoriesListWithValue() {
       list[product.category] += product.price;
     }
   }
-  console.log("\n----------Task #2----------");
-  // for every category log the result with an appropriate padding
-  for (let key in list) {
-    const sumToDisplay = String(Math.round(list[key] * 100) / 100).padStart(7);
-    console.log(
-      `Total value of products in ${key.padEnd(17)}: ${sumToDisplay} $`
-    );
-  }
+  return list;
 }

@@ -27,10 +27,7 @@ export async function findTwoUsersFurthestAway() {
       }
     }
   }
-  console.log("\n----------Task #4----------");
-  console.log(
-    `Furthest away from each other live ${getUserFullName(
-      users[foundUsers[0]]
-    )} and ${getUserFullName(users[foundUsers[1]])}`
-  );
+  return `Furthest away from each other live ${getUserFullName(
+    users[foundUsers[0]]
+  )} and ${getUserFullName(users[foundUsers[1]])}`;
 }
