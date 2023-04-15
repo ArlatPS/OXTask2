@@ -6,7 +6,6 @@ import { findTwoUsersFurthestAway } from "./task4";
 async function main() {
   const list = await createProductCategoriesListWithValue();
   console.log("----------Task #2----------");
-  // for every category log the result with an appropriate padding
   for (let key in list) {
     const sumToDisplay = String(Math.round(list[key] * 100) / 100).padStart(7);
     console.log(

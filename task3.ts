@@ -1,16 +1,13 @@
 import { fetchCarts, fetchProducts, fetchUsers } from "./task1";
-import { User, Cart, Product } from "./types";
+import { UserType, CartType, ProductType } from "./types";
 
-// task 3 - Find cart with the highest value, determines its value and full name of its owner
 export async function findCartWithHighestValueAndItsOwner() {
-  // fetch carts, users and products
-  const carts = (await fetchCarts()) as Cart[];
-  const users = (await fetchUsers()) as User[];
-  const products = (await fetchProducts()) as Product[];
+  const carts: CartType[] = await fetchCarts();
+  const users: UserType[] = await fetchUsers();
+  const products: ProductType[] = await fetchProducts();
 
-  // iterate through carts to find the one with the highest value
   let currentMax = 0;
-  let highestValueCart: Cart | undefined = undefined;
+  let highestValueCart: CartType | undefined = undefined;
   for (let cart of carts) {
     let sum = 0;
     for (let product of cart.products) {
@@ -22,8 +19,8 @@ export async function findCartWithHighestValueAndItsOwner() {
       highestValueCart = cart;
     }
   }
-  // find owner of the cart
-  if (highestValueCart != undefined) {
+
+  if (highestValueCart !== undefined) {
     const owner = findElementWithId(highestValueCart.userId, users);
     return `Highest value cart belongs to ${getUserFullName(
       owner
@@ -33,8 +30,7 @@ export async function findCartWithHighestValueAndItsOwner() {
   }
 }
 
-// function for finding element with given id
-export function findElementWithId<T extends Cart | User | Product>(
+export function findElementWithId<T extends CartType | UserType | ProductType>(
   id: number,
   list: T[]
 ): T {
@@ -42,7 +38,6 @@ export function findElementWithId<T extends Cart | User | Product>(
   return foundElements[0];
 }
 
-// function for getting user's full name
-export function getUserFullName(user: User) {
+export function getUserFullName(user: UserType) {
   return user.name.firstname + " " + user.name.lastname;
 }

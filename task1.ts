@@ -1,9 +1,13 @@
 // create functions for fetching - task 1 (Retrieves user, product and shopping cart data)
 function fetchFakeStoreApi(route: string) {
   return async function fetchFakeStoreApiWithRoute() {
-    const response = await fetch(`https://fakestoreapi.com/${route}`);
-    const responseAfterJSON = await response.json();
-    return responseAfterJSON;
+    try {
+      const response = await fetch(`https://fakestoreapi.com/${route}`);
+      const responseAfterJSON = await response.json();
+      return responseAfterJSON;
+    } catch {
+      throw new Error("API unavailable");
+    }
   };
 }
 
