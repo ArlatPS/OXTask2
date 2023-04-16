@@ -11,14 +11,19 @@ export async function findTwoUsersFurthestAway() {
     y: Number(user.address.geolocation.long),
   }));
 
-  const foundUsers = findFarthestPairBruteForce(coordinates);
+  const foundUsers = findFarthestPair(coordinates);
 
   return `Furthest away from each other live ${getUserFullName(
     users[foundUsers[0]]
   )} and ${getUserFullName(users[foundUsers[1]])}`;
 }
 
-function findFarthestPairBruteForce(points: CoordinatesType[]) {
+type CoordinatesType = {
+  x: number;
+  y: number;
+};
+
+function findFarthestPair(points: CoordinatesType[]) {
   let farthest = 0;
   let farthestPair: number[] = [];
 
@@ -37,8 +42,3 @@ function findFarthestPairBruteForce(points: CoordinatesType[]) {
 
   return farthestPair;
 }
-
-type CoordinatesType = {
-  x: number;
-  y: number;
-};
