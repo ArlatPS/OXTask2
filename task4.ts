@@ -5,22 +5,40 @@ import { UserType } from "./types";
 // task 4 - Find two users living furthest away from each other
 export async function findTwoUsersFurthestAway() {
   const users: UserType[] = await fetchUsers();
-  let foundUsers: [number, number] = [0, 0];
-  let furthest = 0;
-  for (let i = 0; i < users.length - 1; i++) {
-    const { lat: latI, long: longI } = users[i].address.geolocation;
-    for (let j = i + 1; j < users.length; j++) {
-      const { lat: latJ, long: longJ } = users[j].address.geolocation;
-      const latDifference = Math.pow(Number(latI) - Number(latJ), 2);
-      const longDifference = Math.pow(Number(longI) - Number(longJ), 2);
-      const distance = latDifference + longDifference;
-      if (distance > furthest) {
-        foundUsers = [i, j];
-        furthest = distance;
-      }
-    }
-  }
+
+  const coordinates: CoordinatesType[] = users.map((user) => ({
+    x: Number(user.address.geolocation.lat),
+    y: Number(user.address.geolocation.long),
+  }));
+
+  const foundUsers = findFarthestPairBruteForce(coordinates);
+
   return `Furthest away from each other live ${getUserFullName(
     users[foundUsers[0]]
   )} and ${getUserFullName(users[foundUsers[1]])}`;
 }
+
+function findFarthestPairBruteForce(points: CoordinatesType[]) {
+  let farthest = 0;
+  let farthestPair: number[] = [];
+
+  for (let i = 0; i < points.length - 1; i++) {
+    for (let j = i + 1; j < points.length; j++) {
+      const distance = Math.sqrt(
+        Math.pow(points[j].x - points[i].x, 2) +
+          Math.pow(points[j].y - points[i].y, 2)
+      );
+      if (distance > farthest) {
+        farthest = distance;
+        farthestPair = [i, j];
+      }
+    }
+  }
+
+  return farthestPair;
+}
+
+type CoordinatesType = {
+  x: number;
+  y: number;
+};
