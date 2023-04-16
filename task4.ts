@@ -23,7 +23,7 @@ type CoordinatesType = {
   y: number;
 };
 
-function findFarthestPair(points: CoordinatesType[]) {
+export function findFarthestPair(points: CoordinatesType[]) {
   let farthest = 0;
   let farthestPair: number[] = [];
 
